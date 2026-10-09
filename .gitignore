@@ -11,6 +11,7 @@ public/videos/*/footage/*
 public/videos/*/references/*
 !public/videos/*/footage/.gitkeep
 !public/videos/*/references/.gitkeep
+!public/videos/*/references/links.txt
 
 # Vídeo ativo é estado local de cada máquina
 .active-video

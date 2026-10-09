@@ -15,7 +15,10 @@
       "Bash(npx remotion still:*)",
       "Bash(npx remotion ffprobe:*)",
       "Bash(npx remotion ffmpeg:*)",
-      "Bash(cat .active-video)"
+      "Bash(cat .active-video)",
+      "Bash(node scripts/analyze-media.mjs:*)",
+      "Bash(npm run analyze:*)",
+      "Bash(yt-dlp:*)"
     ]
   }
 }

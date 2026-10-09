@@ -21,7 +21,11 @@ Para verificar, usar nesta ordem:
 4. Abrir o Studio (`preview_start` com a config `studio` do `.claude/launch.json`) em `http://localhost:3000/<slug>-main` e passar o link ao usuário.
 
 `npx remotion still <id> --frame=N` é permitido só para inspecionar frames durante /review e /fix (salvar em `out/`).
-ffmpeg/ffprobe: usar os embutidos `npx remotion ffmpeg` / `npx remotion ffprobe`.
+ffmpeg/ffprobe: usar os embutidos `npx remotion ffmpeg` / `npx remotion ffprobe`. Para análise (cortes, sheets, loudness), o script usa o `ffmpeg-static`, que é completo.
+
+## Análise de vídeo
+
+Nunca analisar vídeo extraindo frames na mão. Usar `npm run analyze -- <arquivo|pasta|links.txt|url> --slug <slug> --lang <idioma>`. Ele gera em `out/analysis/` um dossiê cacheado (ritmo medido, picos e silêncios de áudio, momentos candidatos, transcrição whisper ou legenda do YouTube em `Caption[]`, e contact sheets). Referências ficam em `out/analysis/_refs/` e são reaproveitadas entre vídeos. Para ver detalhe, usar `--frame-at <tempo>`. Links do YouTube precisam do yt-dlp.
 
 ## Vídeo ativo
 
@@ -35,7 +39,7 @@ Todos os comandos rodam sobre um vídeo (slug, ex.: `minecraft-hardcore-01`; `vi
 
 ```
 videos/<slug>/            project.md, ANALYSIS.md, EDIT_PLAN.md, REVIEW.md
-public/videos/<slug>/     references/, assets/ (+INDEX.md), footage/
+public/videos/<slug>/     references/ (+links.txt), assets/ (+INDEX.md), footage/
 public/shared/editing-pack/   pack reutilizado em todos os vídeos (+INDEX.md)
 src/components/ animations/ utils/   biblioteca compartilhada
 src/compositions/TimelineVideo.tsx    renderiza qualquer timeline

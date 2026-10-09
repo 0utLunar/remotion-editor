@@ -30,7 +30,13 @@ Cada etapa salva o resultado em arquivo (`project.md` → `ANALYSIS.md` → `EDI
 
 ## Setup
 
-Requisitos: [Node.js](https://nodejs.org) 18+ e [Claude Code](https://claude.com/claude-code) (CLI, desktop ou extensão de IDE). O ffmpeg já vem embutido no Remotion.
+Requisitos: [Node.js](https://nodejs.org) 18+ e [Claude Code](https://claude.com/claude-code) (CLI, desktop ou extensão de IDE). O ffmpeg e a transcrição (Whisper local, via WebGPU) vêm pelo `npm i`.
+
+Opcional, para usar referências do YouTube: [yt-dlp](https://github.com/yt-dlp/yt-dlp).
+
+```bash
+winget install yt-dlp.yt-dlp
+```
 
 ```bash
 npm i
@@ -62,7 +68,7 @@ public/
 │   └── editing-pack/          ← pack usado em TODOS os vídeos (memes, SFX, músicas genéricas)
 └── videos/
     └── minecraft-hardcore-01/
-        ├── references/        ← vídeos que inspiram o estilo
+        ├── references/        ← vídeos que inspiram o estilo, ou links no links.txt
         ├── assets/            ← memes, imagens e sons específicos deste vídeo
         └── footage/           ← suas gravações
 ```
@@ -92,7 +98,7 @@ npx remotion render minecraft-hardcore-01-main
 |---|---|---|
 | `/new-project <slug>` | Briefing + pastas + registro; vira o vídeo ativo | `videos/<slug>/project.md` |
 | `/switch [slug]` | Sem argumento: lista os vídeos e a etapa de cada um. Com slug: troca o ativo | `.active-video` |
-| `/analyze` | Analisa referências, assets e footage (extrai frames para "assistir") | `ANALYSIS.md`, `INDEX.md` dos assets |
+| `/analyze` | Gera dossiês de referências (arquivos ou links), assets e footage, e analisa | `ANALYSIS.md`, `INDEX.md` dos assets |
 | `/plan` | Conceito, narrativa e storyboard, já traduzidos para a timeline | `EDIT_PLAN.md` + timeline |
 | `/build [cena]` | Implementa a composição, valida e abre o Studio. Não renderiza | componentes + link do preview |
 | `/review [intervalo]` | Revisa como editor profissional, sem alterar código | `REVIEW.md` |
@@ -100,6 +106,40 @@ npx remotion render minecraft-hardcore-01-main
 | `/vertical` | Cria a versão 1080x1920 sobre a mesma timeline | `<slug>-vertical` |
 
 Todos os comandos aceitam um slug como primeiro argumento para agir em outro vídeo sem trocar o ativo (ex.: `/review minecraft-hardcore-01`).
+
+---
+
+## Como o Claude "assiste" os vídeos
+
+O Claude não assiste vídeo direto. O `/analyze` roda `npm run analyze`, que transforma cada vídeo num **dossiê** compacto:
+
+| Sinal | O que vira |
+|---|---|
+| Cortes detectados | ritmo medido: duração dos planos, cortes por minuto ao longo do vídeo |
+| Contact sheets | 1 frame por plano, 16 por imagem, com número e tempo |
+| Áudio (EBU R128) | picos (gritos, explosões) e silêncios (tempo morto, pausas) |
+| Transcrição | Whisper local com tempo por palavra (ou a legenda do YouTube) |
+| Momentos candidatos | picos + risadas/exclamações + rajadas de cortes, ranqueados |
+
+Os dossiês ficam em `out/analysis/` e são reaproveitados: analisar de novo não refaz o trabalho, e uma referência usada em vários vídeos é analisada uma vez só. A transcrição da footage também serve para cortar em fala e gerar as legendas com o tempo certo.
+
+### Referências do YouTube sem baixar na mão
+
+Em `public/videos/<slug>/references/links.txt`, uma URL por linha:
+
+```
+https://youtu.be/ID1                     # ritmo do hook
+https://youtu.be/ID2  01:20-03:00        # só esse trecho
+https://youtu.be/ID3  subs-only          # só roteiro: legenda + capítulos, sem baixar vídeo
+```
+
+O vídeo é baixado em baixa resolução (≤480p), só no trecho pedido, analisado e **apagado em seguida**. Fica só o dossiê. Para analisar um vídeo ou link solto:
+
+```bash
+npm run analyze -- "https://youtu.be/ID" --section 00:30-01:30 --lang en
+```
+
+> Baixar vídeos do YouTube pode violar os termos do site. Use só para análise pessoal de referência.
 
 ---
 

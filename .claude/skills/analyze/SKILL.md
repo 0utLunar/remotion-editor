@@ -1,6 +1,6 @@
 ---
 name: analyze
-description: Analisa referências, assets e footage do vídeo ativo e gera ANALYSIS.md e os índices de assets. Não implementa.
+description: Analisa referências (arquivos e links do YouTube), assets e footage do vídeo ativo via dossiês e gera ANALYSIS.md e os índices de assets. Não implementa.
 argument-hint: [slug]
 disable-model-invocation: true
 ---
@@ -15,15 +15,29 @@ Formato: tabela `caminho (relativo a public/) | categoria | duração | dimensõ
 Use `npx remotion ffprobe -v error -show_entries format=duration:stream=width,height -of csv=p=0 <arquivo>`.
 Categorias: meme, sfx, música, transição, overlay, imagem, vídeo, fonte, outro.
 
-## 2. Referências e footage
-Vídeos não podem ser assistidos direto. Extraia frames com
-`npx remotion ffmpeg -i <arquivo> -vf fps=1/3,scale=640:-1 out/frames/<slug>/<nome>_%04d.jpg`
-(ajuste o intervalo à duração) e analise as imagens. Use a duração e as quebras de cena (`select='gt(scene,0.4)'`) para medir o ritmo dos cortes.
+## 2. Dossiês (não assista vídeo frame a frame)
+Rode o analisador. Ele é cacheado, então rodar de novo é barato:
 
-- Referências: composição, ritmo, cortes, timing, transições, zooms, tipografia, legendas, memes, SFX, música, storytelling. Extraia princípios, não copie.
-- Footage: momentos importantes, engraçados e de impacto, punchlines, trechos para remover, oportunidades de zoom, SFX, meme e legenda, sempre com arquivo + timestamp.
+```bash
+npm run analyze -- public/videos/<slug>/references --slug <slug> --lang <idioma das refs>
+npm run analyze -- public/videos/<slug>/footage --slug <slug> --lang <idioma da footage>
+```
 
-## 3. Saídas
-- `videos/<slug>/ANALYSIS.md`: análise deste vídeo.
+- A pasta `references/` inclui os arquivos de vídeo e o `links.txt` (uma URL por linha; opcional `01:20-03:00` para um trecho e `subs-only` para baixar só a legenda).
+- `--lang` é o idioma da fala (`pt`, `en`...), deduzido do project.md ou do título da referência.
+- Se o yt-dlp não estiver instalado, avise o usuário (`winget install yt-dlp.yt-dlp`) e siga com o resto.
+- A primeira transcrição baixa o modelo whisper, então demora mais.
+
+Cada dossiê (`out/analysis/.../dossier.md`) traz ritmo medido, áudio (picos e silêncios), momentos candidatos, transcrição e contact sheets. Para cada vídeo:
+1. Leia o `dossier.md`.
+2. Olhe as contact sheets (`sheets/*.jpg`, 16 planos por imagem com #número e tempo).
+3. Só onde precisar de detalhe: `npm run analyze -- <arquivo> --frame-at <tempo>` (1 frame em resolução cheia). Para links, só com `--keep`.
+
+## 3. O que extrair
+- **Referências:** princípios, não cópia. Ritmo **com números** do dossiê (ex.: "plano médio 1,8 s; hook com cortes de 0,6 s; ~30 cortes/min no clímax"), hook, transições, zooms, tipografia, legendas, memes, SFX, música e storytelling.
+- **Footage:** momentos importantes, engraçados e de impacto, punchlines, trechos para remover (silêncios longos, tempo morto), oportunidades de zoom, SFX, meme e legenda. Sempre com arquivo + tempo exato, partindo dos "momentos candidatos" e da transcrição.
+
+## 4. Saídas
+- `videos/<slug>/ANALYSIS.md`: análise deste vídeo, com o caminho do dossiê de cada fonte (o /plan usa os `transcript.json` da footage para as legendas).
 - `STYLE_GUIDE.md`: acrescente só princípios que valem para qualquer vídeo. Não duplique o que já está lá.
 - Termine com um resumo curto. Próximo passo: `/plan`.

@@ -15,6 +15,7 @@ Leia `videos/<slug>/EDIT_PLAN.md`, a timeline (`defaultProps` de `<slug>-main` e
   - animação reutilizável → `src/animations/`;
   - cena muito específica → `src/videos/<slug>/scenes/`.
 - Timing e conteúdo ficam na timeline (dados), não hardcoded nos componentes.
+- Se o estilo pedir legenda palavra a palavra, use o `transcript.json` (formato `Caption[]`) com a skill remotion-captions em vez de legendas digitadas.
 - Respeite duração, resolução, FPS, estilo e as regras do project.md. Não invente mudanças criativas grandes fora do plano. Se precisar, pergunte.
 - Preserve mudanças que o usuário fez à mão (ex.: via painel de props do Studio).
 
