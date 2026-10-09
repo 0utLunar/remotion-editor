@@ -291,10 +291,6 @@ export const RemotionRoot: React.FC = () => {
 
 Put timing directly on components that support it. See [Timing props](./timing-props.md) for the supported props, examples, and order of operations.
 
-## Maps
-
-See [Remotion Maps](./remotion-maps/REFERENCE.md) if wanting to include maps in the video.
-
 ## Text highlights and annotations
 
 See [text-highlights.md](text-highlights.md) for text highlights (highlight markers), circles, underlines, strike-throughs, crossed-off text, boxes.
@@ -391,10 +387,6 @@ When needing to use sound effects, load the [./sfx.md](./sfx.md) file for more i
 ## Audio visualization
 
 When needing to visualize audio (spectrum bars, waveforms, bass-reactive effects), load the [./audio-visualization.md](./audio-visualization.md) file for more information.
-
-## Maps
-
-For static maps, animated routes and markers, geographic explainers, Mapbox, MapLibre, MapTiler, GeoJSON, or 3D geographic flyovers, load [Remotion Maps](./remotion-maps/REFERENCE.md).
 
 ## Captions
 

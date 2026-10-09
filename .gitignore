@@ -5,3 +5,12 @@ dist
 
 # Ignore the output video from Git but not videos you import into src/.
 out
+
+# Mídia pesada de cada vídeo fica fora do git (mantém só a estrutura)
+public/videos/*/footage/*
+public/videos/*/references/*
+!public/videos/*/footage/.gitkeep
+!public/videos/*/references/.gitkeep
+
+# Vídeo ativo é estado local de cada máquina
+.active-video

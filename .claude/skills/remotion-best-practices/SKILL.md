@@ -22,10 +22,6 @@ If no Remotion project currently exists, load [Create a new Remotion project](./
 
 If you are writing Remotion React Markup, load [Remotion Markup Best Practices](./remotion-markup/REFERENCE.md)
 
-## Maps
-
-For static maps, animated routes and markers, geographic explainers, Mapbox, MapLibre, MapTiler, GeoJSON, or 3D geographic flyovers, load [Remotion Maps](./remotion-maps/REFERENCE.md).
-
 ## Multimedia
 
 For achieving multimedia tasks in the browser, such as trimming, cropping videos, or getting metadata from them, load [Remotion Multimedia](./remotion-multimedia/REFERENCE.md)
@@ -95,10 +91,6 @@ For advanced rendering beyond simple `npx remotion render`, see: [Rendering Best
 ## Captions
 
 When working with Captions, load [Remotion Captions](./remotion-captions/REFERENCE.md).
-
-## Creating a SaaS, automation or application
-
-Use the [Remotion SaaS skill](./remotion-saas/REFERENCE.md) for knowledge about Remotion-powered SaaS apps, such as `<Player>`, rendering on Lambda, Vercel, Cloudflare, via Express.js, client-side rendering, or for finding the right SaaS template.
 
 ## Looking up Remotion APIs and documentation
 

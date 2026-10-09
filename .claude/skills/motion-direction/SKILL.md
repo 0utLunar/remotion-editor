@@ -1,6 +1,6 @@
 ---
 name: motion-direction
-description: Creative direction for professional commercial motion graphics.
+description: Direção de edição e motion para os vídeos deste projeto (hierarquia, timing, ritmo, easing). Carregar junto do perfil de tipo em styles/ ao planejar, implementar ou revisar.
 ---
 
 # Motion Direction

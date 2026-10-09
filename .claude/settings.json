@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(npx remotion render:*)",
+      "Bash(npm exec remotion render:*)",
+      "Bash(npx remotion lambda:*)",
+      "PowerShell(npx remotion render *)",
+      "PowerShell(npm exec remotion render *)"
+    ],
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npx remotion compositions:*)",
+      "Bash(npx remotion still:*)",
+      "Bash(npx remotion ffprobe:*)",
+      "Bash(npx remotion ffmpeg:*)",
+      "Bash(cat .active-video)"
+    ]
+  }
+}
